@@ -3824,13 +3824,13 @@
 {"_id":"ui.overview.charts.PON Power.label","value":"\"Optical RX\""}
 {"_id":"ui.overview.charts.PON Power.slices.1_Normal.color","value":"'#00DBFF'"}
 {"_id":"ui.overview.charts.PON Power.slices.1_Normal.filter","value":"VirtualParameters.RXPower <> \"N/A\" AND VirtualParameters.RXPower < \"-21\""}
-{"_id":"ui.overview.charts.PON Power.slices.1_Normal.label","value":"'Bagus (> -21 dBm)'"}
+{"_id":"ui.overview.charts.PON Power.slices.1_Normal.label","value":"'Bagus'"}
 {"_id":"ui.overview.charts.PON Power.slices.2_Warning.color","value":"\"#fffa00\""}
 {"_id":"ui.overview.charts.PON Power.slices.2_Warning.filter","value":"VirtualParameters.RXPower >= \"-21\" AND VirtualParameters.RXPower < \"-26\""}
-{"_id":"ui.overview.charts.PON Power.slices.2_Warning.label","value":"'Lumayan (-21 s/d -26 dBm)'"}
+{"_id":"ui.overview.charts.PON Power.slices.2_Warning.label","value":"'Lumayan'"}
 {"_id":"ui.overview.charts.PON Power.slices.3_Critical.color","value":"\"#FF2400\""}
 {"_id":"ui.overview.charts.PON Power.slices.3_Critical.filter","value":"VirtualParameters.RXPower >= \"-26\" AND VirtualParameters.RXPower <> \"N/A\""}
-{"_id":"ui.overview.charts.PON Power.slices.3_Critical.label","value":"'Kritis (<= -26 dBm)'"}
+{"_id":"ui.overview.charts.PON Power.slices.3_Critical.label","value":"'Kritis'"}
 {"_id":"ui.overview.charts.PON Power.slices.4_NA.color","value":"'#9E9E9E'"}
 {"_id":"ui.overview.charts.PON Power.slices.4_NA.filter","value":"VirtualParameters.RXPower = \"N/A\""}
 {"_id":"ui.overview.charts.PON Power.slices.4_NA.label","value":"'N/A (Non-optik)'"}
