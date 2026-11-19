@@ -1216,7 +1216,7 @@
 {"_id":"ui.device.19.parameters.3.label","value":"'Password'"}
 {"_id":"ui.device.19.parameters.3.parameter","value":"VirtualParameters.superPassword"}
 {"_id":"ui.device.19.type","value":"'parameter-list'"}
-{"_id":"ui.device.2.components.0.components.0.href","value":"\"https://raw.githubusercontent.com/beryindo/genieacs/refs/heads/main/menambahkan_wan\""}
+{"_id":"ui.device.2.components.0.components.0.href","value":"\"https://raw.githubusercontent.com/wakidanwar/genieacs-jatim-vers-2026/refs/heads/main/docs/menambahkan_wan.txt\""}
 {"_id":"ui.device.2.components.0.components.0.innerHTML","value":"'Parameter Setting'"}
 {"_id":"ui.device.2.components.0.components.0.target","value":"'_blank'"}
 {"_id":"ui.device.2.components.0.components.0.type","value":"'a'"}
