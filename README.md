@@ -188,25 +188,5 @@ Tangkapan layar UI GenieACS (kustomisasi Jatim 2026). Simpan file PNG ke `docs/s
 
 > Catatan: screenshot dapat berisi data/perangkat dari lingkungan sumber dan tampilannya bergantung pada data/kustomisasi. Jika gambar belum muncul di GitHub, file PNG belum ditambahkan ke `docs/screenshots/`.
 
-### Cara mengambil screenshot otomatis
-
-Gunakan [`scripts/capture-screenshots.mjs`](scripts/capture-screenshots.mjs) (Node.js + Playwright/Chromium). Skrip membuka halaman login dan semua halaman utama (termasuk Admin & subhalamannya), lalu menyimpan PNG ke `docs/screenshots/`.
-
-```bash
-# 1) Instal Playwright & browser Chromium (sekali)
-npm install --no-save playwright@1.65.1
-npx playwright@1.65.1 install chromium
-# jika Chromium gagal jalan karena library sistem kurang (Linux headless minimal):
-# npx playwright@1.65.1 install-deps chromium
-
-# 2a) Login dengan username/password UI
-BASE_URL=http://<ACS_HOST>:3000 UI_USER=<user> UI_PASS=<pass> node scripts/capture-screenshots.mjs
-
-# 2b) Atau di server ACS (membuat token dari GENIEACS_UI_JWT_SECRET, tanpa password)
-ENV_FILE=/opt/genieacs/genieacs.env UI_USER=admin node scripts/capture-screenshots.mjs
-```
-
-Variabel opsional: `DEVICE_ID` (contoh ID untuk halaman detail perangkat), `OUT_DIR` (default `docs/screenshots`). Setelah PNG tersedia, commit & push agar gambar tampil di README.
-
 ## Lisensi & sumber
 Template ini berisi konfigurasi/kustomisasi untuk [GenieACS](https://genieacs.com) (AGPL-3.0). Sesuaikan penggunaan/pelampiran lisensi dengan kebutuhan distribusi Anda.

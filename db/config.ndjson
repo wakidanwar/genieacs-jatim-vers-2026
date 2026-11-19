@@ -3800,7 +3800,7 @@
 {"_id":"ui.index.5.writable","value":"false"}
 {"_id":"ui.index.6.label","value":"'Active'"}
 {"_id":"ui.index.6.parameter","value":"VirtualParameters.activedevices"}
-{"_id":"ui.index.7.components.0.parameter","value":"CASE WHEN VirtualParameters.RXPower = \"N/A\" AND VirtualParameters.getponmode = \"Ethernet\" THEN \"NonOptic\" WHEN VirtualParameters.RXPower = \"N/A\" THEN \"Undetect\" ELSE VirtualParameters.RXPower END"}
+{"_id":"ui.index.7.components.0.parameter","value":"CASE WHEN VirtualParameters.RXPower = \"N/A\" THEN \"0\" ELSE VirtualParameters.RXPower END"}
 {"_id":"ui.index.7.components.0.type","value":"'parameter'"}
 {"_id":"ui.index.7.components.1.chart","value":"'PON Power'"}
 {"_id":"ui.index.7.components.1.type","value":"'overview-dot'"}
@@ -3833,7 +3833,7 @@
 {"_id":"ui.overview.charts.PON Power.slices.3_Critical.label","value":"'Kritis'"}
 {"_id":"ui.overview.charts.PON Power.slices.4_NA.color","value":"'#9E9E9E'"}
 {"_id":"ui.overview.charts.PON Power.slices.4_NA.filter","value":"VirtualParameters.RXPower = \"N/A\""}
-{"_id":"ui.overview.charts.PON Power.slices.4_NA.label","value":"'N/A (Non-optik)'"}
+{"_id":"ui.overview.charts.PON Power.slices.4_NA.label","value":"'Non-Optik'"}
 {"_id":"ui.overview.charts.devreg.label","value":"'Devices Register'"}
 {"_id":"ui.overview.charts.devreg.slices.2_hariini.color","value":"'#D65315'"}
 {"_id":"ui.overview.charts.devreg.slices.2_hariini.filter","value":"Events.Registered > (NOW() - 5 * 60 * 1000) - (24 * 60 * 60 * 1000)"}
