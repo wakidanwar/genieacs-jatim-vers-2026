@@ -2,6 +2,8 @@
 
 Template konfigurasi GenieACS 1.2.13 (Ubuntu 22.04 / MongoDB 8 / Node.js 22) untuk deployment baru.
 
+> **Cara cepat (disarankan):** jalankan installer otomatis [`install.sh`](../install.sh) — lihat [README.md](../README.md). Dokumen ini menjelaskan langkah **manual** / detail jika Anda ingin memasang dan mengonfigurasi komponen satu per satu.
+
 ## Isi template
 - `db/*.ndjson` — ekspor konfigurasi GenieACS: `config` (UI/index/filters/overview/device view, cwmp), `presets`, `provisions`, `virtualParameters`, `permissions`, `files` (kosong). **Tidak** termasuk `users`, `devices`, `tasks`, `faults`, `operations`, `cache`, `locks` (data live/kredensial).
 - `scripts/provisions|virtualParameters/*.js` — salinan skrip (readable) dari koleksi DB; sumber kebenaran impor ada di `db/*.ndjson`.
