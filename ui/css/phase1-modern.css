@@ -1,0 +1,143 @@
+
+/* ============================================================
+   Modern UI - Phase 1 (2026-11-18)
+   Bootstrap 5.3.3 design tokens, local assets, CSS-only.
+   Scoped to #content / #header: no global reboot, no layout geometry change.
+   ============================================================ */
+#content,
+#header {
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --bs-body-font-family: var(--bs-font-sans-serif);
+  --bs-border-radius: 0.5rem;
+  --bs-border-radius-sm: 0.35rem;
+  --bs-border-color: #dee2e6;
+  --bs-primary: #046380;
+  --bs-primary-hover: #03506a;
+  --bs-tertiary-bg: #f8f9fa;
+  font-family: var(--bs-body-font-family);
+}
+
+/* Header: soft gradient + subtle shadow */
+#header {
+  background: linear-gradient(180deg, #fffdf7 0%, #f2eddf 100%);
+  box-shadow: 0 1px 4px rgba(0, 47, 47, 0.10);
+}
+
+#header > .drawer-wrapper > .drawer,
+#header > .drawer-wrapper > .notifications-wrapper > .notification {
+  box-shadow: 0 6px 18px rgba(0, 47, 47, 0.16);
+  border-color: var(--bs-border-color);
+}
+
+/* Buttons: Bootstrap-like padding, radius, hover */
+#content :is(input[type=button], button),
+#header :is(input[type=button], button) {
+  font-family: inherit;
+  padding: 0.35em 0.75em;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-sm);
+  background-color: #fff;
+  color: var(--color5);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#content :is(input[type=button], button):hover:not(:disabled),
+#header :is(input[type=button], button):hover:not(:disabled) {
+  background-color: var(--color3);
+  border-color: var(--color2);
+}
+
+#content :is(input[type=button], button).primary,
+#header :is(input[type=button], button).primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: #fff;
+  font-weight: 500;
+}
+
+#content :is(input[type=button], button).primary:hover:not(:disabled),
+#header :is(input[type=button], button).primary:hover:not(:disabled) {
+  background-color: var(--bs-primary-hover);
+  border-color: var(--bs-primary-hover);
+}
+
+#content :is(input[type=button], button).critical,
+#header :is(input[type=button], button).critical {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+  font-weight: 500;
+}
+
+#content :is(input[type=button], button).critical:hover:not(:disabled) {
+  background-color: #bb2d3b;
+  border-color: #b02a37;
+}
+
+/* Form controls: Bootstrap-like borders, radius, focus ring */
+#content input:not([type=button]):not([type=checkbox]):not([type=radio]),
+#content select,
+#content textarea,
+#header input:not([type=button]):not([type=checkbox]):not([type=radio]) {
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-sm);
+  padding: 0.35em 0.6em;
+  background-color: #fff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#content input:not([type=button]):not([type=checkbox]):not([type=radio]):focus,
+#content select:focus,
+#content textarea:focus,
+#header input:not([type=button]):not([type=checkbox]):not([type=radio]):focus {
+  outline: 0;
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.2rem rgba(4, 99, 128, 0.15);
+}
+
+/* Tables: cleaner borders, zebra rows, hover (no width/overflow changes) */
+#content table.table,
+#content table.parameter-list {
+  background-color: #fff;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-sm);
+}
+
+#content table.table th,
+#content table.parameter-list th {
+  background-color: var(--bs-tertiary-bg);
+  border-bottom: 2px solid var(--color4);
+  color: var(--color5);
+}
+
+#content table.table > tbody > tr:nth-child(odd),
+#content table.parameter-list > tbody > tr:nth-child(odd) {
+  background-color: #fbfcfd;
+}
+
+#content table.table > tbody > tr:hover,
+#content table.parameter-list > tbody > tr:hover {
+  background-color: #eaf3f5;
+}
+
+#content table.table > tbody > tr > td,
+#content table.parameter-list > tbody > tr > td {
+  border-bottom: 1px solid #eef1f3;
+}
+
+/* Headings & actions */
+#content h1 {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+#content .actions-bar > button {
+  margin-right: 0.6em;
+}
+
+#content .filter > input {
+  border-radius: var(--bs-border-radius-sm);
+}

@@ -1,0 +1,80 @@
+
+/* ============================================================
+   Modern UI - Phase 2 (2026-11-18)
+   Card-style overview charts, pill badges, login finishing.
+   CSS-only, scoped, no functional/query changes.
+   ============================================================ */
+
+/* Overview: setiap chart menjadi kartu */
+#content .overview-chart-group {
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+#content .overview-chart {
+  flex: 1 1 320px;
+  min-width: 280px;
+  margin: 0;
+  padding: 1rem 1.25rem 0.5rem;
+  background-color: #fff;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  box-shadow: 0 2px 8px rgba(0, 47, 47, 0.08);
+}
+
+#content .overview-chart > h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color4);
+}
+
+#content .pie-chart {
+  margin: 0.5rem auto;
+}
+
+#content .pie-chart > .legend > .legend-total {
+  font-weight: 600;
+  color: var(--color4);
+}
+
+/* Tag & status: pill ala Bootstrap */
+#content .tags > .tag,
+#content > .tag {
+  background-image: none;
+  background-color: #e7f1f4;
+  border: 1px solid #c9dde2;
+  border-radius: 1rem;
+  padding: 0.15em 0.65em;
+  font-size: 0.9em;
+  color: var(--color4);
+}
+
+#header > .drawer-wrapper > .drawer > .status > span:not(.active) {
+  background-color: #eef1f3;
+  border-radius: 1rem;
+  padding: 0.2em 0.6em;
+}
+
+#header > .drawer-wrapper > .notifications-wrapper > .notification {
+  border-radius: var(--bs-border-radius);
+  font-weight: 500;
+}
+
+/* Login: aksen tipis + tombol penuh */
+#content.page-login > form {
+  border-top: 4px solid var(--bs-primary);
+}
+
+#content.page-login > form button.primary {
+  width: 100%;
+}
+
+/* Overlay dialog: kartu lebih halus */
+#content .overlay-wrapper > .overlay,
+.overlay-wrapper > .overlay {
+  border-color: var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  box-shadow: 0 12px 32px rgba(0, 47, 47, 0.20);
+}

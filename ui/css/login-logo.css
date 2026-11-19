@@ -1,0 +1,14 @@
+
+/* ============================================================
+   Custom: Login logo - Tanjung Pilar (2026-11-18)
+   ============================================================ */
+#content.page-login::before {
+  content: "";
+  display: block;
+  width: 260px;
+  height: 49px; /* 260 * 299 / 1600 */
+  margin-bottom: 1.4em;
+  flex-shrink: 0;
+  background: url("assets/logo-tanjungpilar.png") no-repeat center center;
+  background-size: contain;
+}

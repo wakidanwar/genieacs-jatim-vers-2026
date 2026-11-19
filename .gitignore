@@ -1,0 +1,29 @@
+# OS/editor
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Never commit secrets or live environment
+env/genieacs.env
+.env
+*.key
+*.pem
+
+# Live dumps / backups / databases (may contain device/customer data)
+db/devices.ndjson
+db/tasks.ndjson
+db/faults.ndjson
+db/operations.ndjson
+db/cache.ndjson
+db/locks.ndjson
+db/users.ndjson
+*.bson
+*.archive
+*.dump
+genieacs/
+
+# Logs
+*.log
