@@ -166,5 +166,47 @@ Akses `http://<ACS_HOST>:3000/` (Overview/Devices), login dengan user UI yang di
 - **Setelah upgrade GenieACS:** upgrade dapat menimpa `public/` (bundle JS/CSS/icon). Terapkan ulang UI: `sudo bash ui/apply-ui.sh` (lihat [docs/POST-UPGRADE.md](docs/POST-UPGRADE.md)). Jika bundle berubah signifikan, sesuaikan patch di `ui/patches` & `ui/scripts`.
 - **Catatan operasional:** CWMP `:7547`, NBI `:7557`, UI `:3000`; status online dipengaruhi Periodic Inform & `cwmp.deviceOnlineThreshold` (30000). TOTOLINK (`ZIONCOM`, N200RE/N300RT) memiliki guard/preset khusus. MongoDB jangan diekspos publik. Detail: [docs/NOTES.md](docs/NOTES.md).
 
+## Screenshot halaman
+
+Tangkapan layar UI GenieACS (kustomisasi Jatim 2026). Simpan file PNG ke `docs/screenshots/` dengan nama berikut agar tampil di README.
+
+| Halaman | Rute | Screenshot |
+|---|---|---|
+| Login | `#!/login` | ![Login](docs/screenshots/01-login.png) |
+| Overview | `#!/overview` | ![Overview](docs/screenshots/02-overview.png) |
+| Devices | `#!/devices` | ![Devices](docs/screenshots/03-devices.png) |
+| Device detail | `#!/devices/<DEVICE_ID>` | ![Device detail](docs/screenshots/04-device-detail.png) |
+| Faults | `#!/faults` | ![Faults](docs/screenshots/05-faults.png) |
+| Admin | `#!/admin` | ![Admin](docs/screenshots/06-admin.png) |
+| Presets | `#!/admin/presets` | ![Presets](docs/screenshots/07-admin-presets.png) |
+| Provisions | `#!/admin/provisions` | ![Provisions](docs/screenshots/08-admin-provisions.png) |
+| Virtual Parameters | `#!/admin/virtualParameters` | ![Virtual Parameters](docs/screenshots/09-admin-virtual-parameters.png) |
+| Config | `#!/admin/config` | ![Config](docs/screenshots/10-admin-config.png) |
+| Files | `#!/admin/files` | ![Files](docs/screenshots/11-admin-files.png) |
+| Users | `#!/admin/users` | ![Users](docs/screenshots/12-admin-users.png) |
+| Permissions | `#!/admin/permissions` | ![Permissions](docs/screenshots/13-admin-permissions.png) |
+
+> Catatan: screenshot dapat berisi data/perangkat dari lingkungan sumber dan tampilannya bergantung pada data/kustomisasi. Jika gambar belum muncul di GitHub, file PNG belum ditambahkan ke `docs/screenshots/`.
+
+### Cara mengambil screenshot otomatis
+
+Gunakan [`scripts/capture-screenshots.mjs`](scripts/capture-screenshots.mjs) (Node.js + Playwright/Chromium). Skrip membuka halaman login dan semua halaman utama (termasuk Admin & subhalamannya), lalu menyimpan PNG ke `docs/screenshots/`.
+
+```bash
+# 1) Instal Playwright & browser Chromium (sekali)
+npm install --no-save playwright@1.65.1
+npx playwright@1.65.1 install chromium
+# jika Chromium gagal jalan karena library sistem kurang (Linux headless minimal):
+# npx playwright@1.65.1 install-deps chromium
+
+# 2a) Login dengan username/password UI
+BASE_URL=http://<ACS_HOST>:3000 UI_USER=<user> UI_PASS=<pass> node scripts/capture-screenshots.mjs
+
+# 2b) Atau di server ACS (membuat token dari GENIEACS_UI_JWT_SECRET, tanpa password)
+ENV_FILE=/opt/genieacs/genieacs.env UI_USER=admin node scripts/capture-screenshots.mjs
+```
+
+Variabel opsional: `DEVICE_ID` (contoh ID untuk halaman detail perangkat), `OUT_DIR` (default `docs/screenshots`). Setelah PNG tersedia, commit & push agar gambar tampil di README.
+
 ## Lisensi & sumber
 Template ini berisi konfigurasi/kustomisasi untuk [GenieACS](https://genieacs.com) (AGPL-3.0). Sesuaikan penggunaan/pelampiran lisensi dengan kebutuhan distribusi Anda.
