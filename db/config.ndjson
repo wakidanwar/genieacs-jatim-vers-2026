@@ -80,7 +80,7 @@
 {"_id":"ui.device.1.components.0.parameters.6.label","value":"'SN ONT'"}
 {"_id":"ui.device.1.components.0.parameters.6.parameter","value":"VirtualParameters.getSerialNumber"}
 {"_id":"ui.device.1.components.0.parameters.7.label","value":"'MAC Address'"}
-{"_id":"ui.device.1.components.0.parameters.7.parameter","value":"VirtualParameters.pppoeMac"}
+{"_id":"ui.device.1.components.0.parameters.7.parameter","value":"CASE WHEN VirtualParameters.PonMac <> \"\" AND VirtualParameters.PonMac <> \"N/A\" AND VirtualParameters.PonMac <> \"00:00:00:00:00:00\" THEN VirtualParameters.PonMac WHEN VirtualParameters.pppoeMac <> \"\" AND VirtualParameters.pppoeMac <> \"N/A\" AND VirtualParameters.pppoeMac <> \"00:00:00:00:00:00\" THEN VirtualParameters.pppoeMac WHEN InternetGatewayDevice.ManagementServer.mac <> \"\" THEN InternetGatewayDevice.ManagementServer.mac ELSE \"\" END"}
 {"_id":"ui.device.1.components.0.parameters.8.label","value":"'Hardware version'"}
 {"_id":"ui.device.1.components.0.parameters.8.parameter","value":"InternetGatewayDevice.DeviceInfo.HardwareVersion"}
 {"_id":"ui.device.1.components.0.parameters.9.label","value":"'Software version'"}
