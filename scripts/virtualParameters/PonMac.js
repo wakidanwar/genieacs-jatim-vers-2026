@@ -1,4 +1,4 @@
-// Mac Address PON (improved 2026-11-18): fallback to LAN/PPP MAC, keep TOTOLINK/X_CU guard
+// Mac Address PON (improved 2026-11-18, update 2026-11-21): fallback to LAN/PPP MAC, keep TOTOLINK/X_CU guard
 let m = "";
 
 const __merkInfo = declare('DeviceID.Manufacturer', {value: 1});
@@ -29,12 +29,17 @@ let w11 = declare("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPP
 let w12 = declare("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.MACAddress", {value: Date.now()});
 let w21 = declare("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.2.WANPPPConnection.1.MACAddress", {value: Date.now()});
 let w22 = declare("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.2.WANPPPConnection.2.MACAddress", {value: Date.now()});
+// 2026-11-21: fallback untuk ONT yang MAC-nya ada di LANEthernetInterfaceConfig
+// atau WANConnectionDevice index lain (mis. C-DATA/CIOT .3/.4)
+let lanEth = declare("InternetGatewayDevice.LANDevice.*.LANEthernetInterfaceConfig.*.MACAddress", {value: Date.now()});
+let wAll = declare("InternetGatewayDevice.WANDevice.*.WANConnectionDevice.*.WANPPPConnection.*.MACAddress", {value: Date.now()});
 
 if (!__isTotolink) {
-  m = pickFirst(xcu) || pickFirst(lan) || pickFirst(w11) || pickFirst(w12) || pickFirst(w21) || pickFirst(w22);
+  m = pickFirst(xcu) || pickFirst(lan) || pickFirst(w11) || pickFirst(w12) || pickFirst(w21) || pickFirst(w22)
+      || pickFirst(lanEth) || pickFirst(wAll);
 } else {
   // TOTOLINK/ZIONCOM: avoid X_CU path; prefer PPP/LAN MAC
-  m = pickFirst(w11) || pickFirst(w12) || pickFirst(w21) || pickFirst(w22) || pickFirst(lan);
+  m = pickFirst(w11) || pickFirst(w12) || pickFirst(w21) || pickFirst(w22) || pickFirst(lan) || pickFirst(lanEth);
 }
 
 // final fallback: try other common PPP path reads if still empty (already attempted above)
