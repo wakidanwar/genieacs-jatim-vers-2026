@@ -1,6 +1,12 @@
-let manufacturer = declare("DeviceID.Manufacturer", {value: 1}).value[0];
-let oui = declare("DeviceID.OUI", {value: 1}).value[0];
-let productClass = declare("DeviceID.ProductClass", {value: 1}).value[0];
+// 2026-11-23: akses DeviceID dibuat aman jika suatu parameter tidak tersedia
+function readDeviceId(name) {
+  let d = declare(name, {value: 1});
+  return (d && d.value && d.value[0]) || '';
+}
+
+let manufacturer = readDeviceId("DeviceID.Manufacturer");
+let oui = readDeviceId("DeviceID.OUI");
+let productClass = readDeviceId("DeviceID.ProductClass");
 
 let vendor = "Other";
 

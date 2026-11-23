@@ -33,6 +33,18 @@ if (result === '' || result === '0.0.0.0') {
       }
     }
     result = getParameterValue(keys);
+
+    // 2026-11-23: fallback untuk ONT PPPoE yang tidak punya WANIPConnection
+    // tetapi ConnectionRequestURL tersedia (host/IPnya adalah IP WAN/TR069)
+    if (!result) {
+        let cr = declare("InternetGatewayDevice.ManagementServer.ConnectionRequestURL", {value: Date.now()});
+        for (let p of cr) {
+            let u = p && p.value && p.value[0];
+            if (!u) continue;
+            let m = /^(?:https?:\/\/)?([^\/:]+)/.exec(String(u).trim());
+            if (m && m[1]) { result = m[1]; break; }
+        }
+    }
 }
 
 return {writable: false, value: [result, "xsd:string"]};
