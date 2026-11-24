@@ -41,3 +41,10 @@ declare("VirtualParameters.getSerialNumber", {path: daily, value: daily});
 declare("VirtualParameters.pppoeIP", {path: minutes, value: minutes});
 declare("VirtualParameters.getdeviceuptime", {path: minutes, value: minutes});
 declare("VirtualParameters.getpppuptime", {path: minutes, value: minutes});
+
+// Admin Web: refresh baca dari device. Provision "useradmin" tetap menangani
+// penulisan kredensial saat BOOTSTRAP (tidak diubah agar tidak menimpa password device).
+declare("VirtualParameters.userAdmin", {path: daily, value: daily});
+declare("VirtualParameters.userPassword", {path: daily, value: daily});
+declare("VirtualParameters.superAdmin", {path: daily, value: daily});
+declare("VirtualParameters.superPassword", {path: daily, value: daily});
