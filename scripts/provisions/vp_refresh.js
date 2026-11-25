@@ -48,3 +48,12 @@ declare("VirtualParameters.userAdmin", {path: daily, value: daily});
 declare("VirtualParameters.userPassword", {path: daily, value: daily});
 declare("VirtualParameters.superAdmin", {path: daily, value: daily});
 declare("VirtualParameters.superPassword", {path: daily, value: daily});
+
+// 2026-11-25: refresh STRUKTUR subtree WANDevice.1 agar object optik
+// (mis. X_CT-COM_EponInterfaceConfig) ikut ter-discover di cache GenieACS.
+// Tanpa ini, wildcard di VP RXPower/gettemp tidak punya path saat tree belum lengkap.
+// Router (TOTOLINK/ZIONCOM, TP-Link/Archer, MikroTik, RAISECOM) dilewati.
+const routerRe = /TOTOLINK|ZIONCOM|TP-LINK|TP-Link|Archer|MikroTik|RAISECOM|Raisecom/i;
+if (!routerRe.test(String(merk)) && !routerRe.test(String(tipe))) {
+  try { declare("InternetGatewayDevice.WANDevice.1.", {path: daily}); } catch (e) {}
+}

@@ -214,6 +214,18 @@ apply_ui() {
   ok "Kustomisasi UI diterapkan"
 }
 
+install_watchdog() {
+  log "Memasang watchdog optik (refreshObject otomatis, 03:00 WIB)..."
+  install -d -m 755 /var/lib/genieacs
+  cat > /etc/cron.d/genieacs-optical-watchdog <<EOF
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+0 3 * * * root /usr/bin/python3 ${REPO_DIR}/scripts/refresh-missing-optical.py >> /var/log/genieacs-optical-watchdog.log 2>&1
+EOF
+  chmod 644 /etc/cron.d/genieacs-optical-watchdog
+  ok "Watchdog optik terpasang"
+}
+
 restart_all() {
   log "Restart service..."
   systemctl restart mongod genieacs-cwmp genieacs-nbi genieacs-fs genieacs-ui || true
@@ -268,6 +280,7 @@ main() {
   configure_db
   set_timezone
   apply_ui
+  install_watchdog
   restart_all
   verify
   summary
