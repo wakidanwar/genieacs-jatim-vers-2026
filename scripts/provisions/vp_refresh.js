@@ -4,6 +4,7 @@
 // Preset "vp_refresh" menjalankan provision ini pada channel default setiap inform.
 
 const daily = Date.now(86400000);
+const weekly = Date.now(604800000);
 const hourly = Date.now(3590000);
 const update = Date.now(60000);
 const minutes = Date.now(60000);
@@ -53,7 +54,9 @@ declare("VirtualParameters.superPassword", {path: daily, value: daily});
 // (mis. X_CT-COM_EponInterfaceConfig) ikut ter-discover di cache GenieACS.
 // Tanpa ini, wildcard di VP RXPower/gettemp tidak punya path saat tree belum lengkap.
 // Router (TOTOLINK/ZIONCOM, TP-Link/Archer, MikroTik, RAISECOM) dilewati.
+// 2026-11-25: frekuensi diturunkan daily -> weekly untuk hemat CPU;
+// device dengan tree belum lengkap tetap di-heal watchdog harian 03:00 WIB.
 const routerRe = /TOTOLINK|ZIONCOM|TP-LINK|TP-Link|Archer|MikroTik|RAISECOM|Raisecom/i;
 if (!routerRe.test(String(merk)) && !routerRe.test(String(tipe))) {
-  try { declare("InternetGatewayDevice.WANDevice.1.", {path: daily}); } catch (e) {}
+  try { declare("InternetGatewayDevice.WANDevice.1.", {path: weekly}); } catch (e) {}
 }

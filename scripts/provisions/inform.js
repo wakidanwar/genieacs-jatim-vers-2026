@@ -1,6 +1,8 @@
 // Script Provision inform
 const url = "http://<ACS_HOST>:7547";
-const informInterval = 200;
+// 2026-11-25: dinaikkan 200 -> 600 detik untuk menghemat CPU server
+// (2 vCPU). Watchdog optik masih punya window online 30 menit, aman.
+const informInterval = 600;
 
 const daily = Date.now(86400000); 
 const minutes = Date.now(300000);
