@@ -6,3 +6,4 @@
 {"_id":"preset_zimmlink","channel":"default","weight":0,"precondition":"DeviceID.Manufacturer = \"Zimmlink\" OR DeviceID.Manufacturer = \"ZIMMLINK\" OR DeviceID.ProductClass = \"Zimmlink\"","events":{},"configurations":[{"type":"provision","name":"default","args":null}]}
 {"_id":"useradmin","weight":0,"channel":"useradmin","events":{"0 BOOTSTRAP":true},"precondition":"DeviceID.Manufacturer <> \"ZIONCOM\" AND DeviceID.Manufacturer <> \"RAISECOM\" AND DeviceID.Manufacturer <> \"Raisecom\" AND DeviceID.Manufacturer <> \"TOTOLINK\"","configurations":[{"type":"provision","name":"useradmin","args":null}]}
 {"_id":"vp_refresh","weight":0,"channel":"default","precondition":"","events":{},"configurations":[{"type":"provision","name":"vp_refresh","args":null}]}
+{"_id":"full_tree_refresh","channel":"default","weight":10,"precondition":"","events":{},"configurations":[{"type":"age","name":"","age":604800}]}
