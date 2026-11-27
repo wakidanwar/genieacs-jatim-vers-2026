@@ -226,6 +226,18 @@ EOF
   ok "Watchdog optik terpasang"
 }
 
+install_tree_refresh() {
+  log "Memasang refresh pohon parameter bertahap (tiap 30 menit)..."
+  install -d -m 755 /var/lib/genieacs
+  cat > /etc/cron.d/genieacs-tree-refresh <<EOF
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+*/30 * * * * root /usr/bin/python3 ${REPO_DIR}/scripts/refresh-tree-staggered.py >> /var/log/genieacs-tree-refresh.log 2>&1
+EOF
+  chmod 644 /etc/cron.d/genieacs-tree-refresh
+  ok "Refresh pohon parameter bertahap terpasang"
+}
+
 restart_all() {
   log "Restart service..."
   systemctl restart mongod genieacs-cwmp genieacs-nbi genieacs-fs genieacs-ui || true
@@ -281,6 +293,7 @@ main() {
   set_timezone
   apply_ui
   install_watchdog
+  install_tree_refresh
   restart_all
   verify
   summary
