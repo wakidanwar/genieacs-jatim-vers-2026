@@ -6,6 +6,9 @@ yang paling lama belum di-refresh (cooldown 7 hari). Ini menggantikan preset
 in-session yang terbukti memicu `too_many_commits` / `session_terminated`
 pada device dengan sumber daya terbatas.
 
+Device yang gagal (fault task `session_terminated` / `too_many_rpcs`) diberi
+backoff 30 hari agar cron tidak terus-menerus memutus sesi CWMP-nya.
+
 Hanya menyentuh device yang sedang online dan tidak punya fault/task aktif.
 Tidak pernah menulis atau mencetak kredensial maupun Connection Request URL.
 """
@@ -24,6 +27,7 @@ STATE = os.environ.get(
     "TREE_REFRESH_STATE", "/var/lib/genieacs/tree_refresh_state.json"
 )
 COOLDOWN_DAYS = int(os.environ.get("TREE_REFRESH_COOLDOWN_DAYS", "7"))
+FAILURE_BACKOFF_DAYS = int(os.environ.get("TREE_REFRESH_FAILURE_BACKOFF_DAYS", "30"))
 ONLINE_MINUTES = int(os.environ.get("TREE_REFRESH_ONLINE_MINUTES", "10"))
 TASK_TIMEOUT_MS = int(os.environ.get("TREE_REFRESH_TIMEOUT_MS", "180000"))
 HTTP_TIMEOUT = int(os.environ.get("TREE_REFRESH_HTTP_TIMEOUT", "30"))
@@ -40,12 +44,30 @@ db.devices.find({}).forEach(function(d) {
 print(out.join("\n"));
 """ % ONLINE_MINUTES
 
+FAILED_QUERY = r"""
+var out = [];
+db.faults.find({channel: {$regex: '^task_'}}).forEach(function(f) {
+  if (out.indexOf(f.device) < 0) out.push(f.device);
+});
+print(out.join("\n"));
+"""
 
-def candidates():
+MIN_TIME = datetime.min.replace(tzinfo=timezone.utc)
+
+
+def mongosh(script):
     out = subprocess.check_output(
-        ["mongosh", DB, "--quiet", "--eval", QUERY], text=True
+        ["mongosh", DB, "--quiet", "--eval", script], text=True
     )
     return [line.strip() for line in out.splitlines() if line.strip()]
+
+
+def candidates():
+    return mongosh(QUERY)
+
+
+def failed_devices():
+    return mongosh(FAILED_QUERY)
 
 
 def load_state():
@@ -67,16 +89,42 @@ def save_state(state):
     os.chmod(STATE, 0o600)
 
 
-def parse_ts(value):
+def parse_ts(entry):
+    if isinstance(entry, dict):
+        value = entry.get("at")
+    else:
+        value = entry
     if not value:
-        return datetime.min.replace(tzinfo=timezone.utc)
+        return MIN_TIME
     try:
         ts = datetime.fromisoformat(value)
         if ts.tzinfo is None:
             ts = ts.replace(tzinfo=timezone.utc)
         return ts
     except (TypeError, ValueError):
-        return datetime.min.replace(tzinfo=timezone.utc)
+        return MIN_TIME
+
+
+def parse_failed_ts(entry):
+    if not isinstance(entry, dict):
+        return MIN_TIME
+    value = entry.get("failedAt")
+    if not value:
+        return MIN_TIME
+    try:
+        ts = datetime.fromisoformat(value)
+        if ts.tzinfo is None:
+            ts = ts.replace(tzinfo=timezone.utc)
+        return ts
+    except (TypeError, ValueError):
+        return MIN_TIME
+
+
+def in_backoff(entry, now):
+    failed_at = parse_failed_ts(entry)
+    return failed_at != MIN_TIME and now - failed_at < timedelta(
+        days=FAILURE_BACKOFF_DAYS
+    )
 
 
 def oldest(ids, state):
@@ -114,19 +162,41 @@ def main():
     now = datetime.now(timezone.utc)
     state = load_state()
     ids = candidates()
+    failed = set(failed_devices())
+
+    changed = False
+    for device_id in failed:
+        if in_backoff(state.get(device_id), now):
+            continue
+        old = state.get(device_id)
+        failures = old.get("failures", 0) + 1 if isinstance(old, dict) else 1
+        state[device_id] = {
+            "at": parse_ts(old).isoformat() if parse_ts(old) != MIN_TIME else now.isoformat(),
+            "failedAt": now.isoformat(),
+            "failures": failures,
+        }
+        changed = True
+        print("backoff %s failures=%d hari=%d" % (device_id, failures, FAILURE_BACKOFF_DAYS))
+
+    ids = [
+        device_id
+        for device_id in ids
+        if device_id not in failed and not in_backoff(state.get(device_id), now)
+    ]
     print(
-        "[%s] online=%d state=%d"
-        % (now.strftime("%Y-%m-%d %H:%M:%S UTC"), len(ids), len(state))
+        "[%s] online=%d state=%d backoff=%d"
+        % (now.strftime("%Y-%m-%d %H:%M:%S UTC"), len(ids), len(state), len(failed))
     )
+    if changed:
+        save_state(state)
     if not ids:
         return
 
     device_id = oldest(ids, state)
     last = parse_ts(state.get(device_id))
-    if last != datetime.min.replace(tzinfo=timezone.utc):
-        if now - last < timedelta(days=COOLDOWN_DAYS):
-            print("cooldown %s (terakhir %s)" % (device_id, last.isoformat()))
-            return
+    if last != MIN_TIME and now - last < timedelta(days=COOLDOWN_DAYS):
+        print("cooldown %s (terakhir %s)" % (device_id, last.isoformat()))
+        return
 
     if refresh(device_id):
         state[device_id] = now.isoformat()
